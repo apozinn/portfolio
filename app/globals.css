@@ -1,26 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* No v4, este único import substitui as 3 diretivas @tailwind */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Definição de Cores Industriais */
+  --color-blueprint-bg: #c5b896;
+  --color-blueprint-orange: #ff4d29;
+  --color-blueprint-grid: rgba(0, 0, 0, 0.08);
+  
+  /* Definição de Sombras Rígidas */
+  --shadow-hard-sm: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-hard-md: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-hard-lg: 12px 12px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-hard-xl: 16px 16px 0px 0px rgba(0, 0, 0, 1);
+
+  /* Tipografia Técnica */
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Configurações Globais de Base */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    cursor: crosshair;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-blueprint-bg antialiased text-neutral-900 overflow-x-hidden font-sans;
+  }
+
+  /* Forçar JetBrains Mono em labels técnicas */
+  .font-mono {
+    font-family: var(--font-mono) !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Utilitários Customizados */
+@layer utilities {
+  /* Grid de Papel Técnico Blueprint */
+  .bg-grid-pattern {
+    background-image: radial-gradient(var(--color-blueprint-grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Animação de LED de Status */
+  .animate-status {
+    animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Estilização de Componentes de Terceiros e Scrollbar */
+@layer components {
+  /* Customização do CodeMirror */
+  .cm-editor {
+    @apply text-sm md:text-base outline-none;
+  }
+
+  .cm-scroller {
+    font-family: var(--font-mono) !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+
+  /* Scrollbar Industrial */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-blueprint-bg);
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #000;
+    border: 2px solid var(--color-blueprint-bg);
+    border-radius: 10px;
+  }
+
+  /* Efeito de Scanline Terminal no Foco */
+  .input-scanline:focus {
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.02) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 2px, 3px 100%;
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(0.9); }
+}
+
+/* Seleção de Texto */
+::selection {
+  background-color: var(--color-blueprint-orange);
+  color: white;
+}
+
+@keyframes tech-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-tech-scroll {
+  animation: tech-scroll 40s linear infinite;
+}
+
+.animate-tech-scroll-fast {
+  animation: tech-scroll 10s linear infinite;
+}
+
+.pause-animation {
+  animation-play-state: paused !important;
+}
+
+.reverse-animation {
+  animation-direction: reverse !important;
 }
